@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+Collections | Amazon
+{% endblock title %}
+{% block content %}
+
+<section class="py-5 text-center container my-2">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Bestsellers</h1>
+            <p class="lead text-muted">Our most popular products based on sales. Updated hourly.</p>
+            <p>
+                <a href="#" style="background-color:rgb(20, 97, 145);" class="btn btn-primary my-2">Already User</a>
+                <a href="#" class="btn btn-secondary my-2">Register</a>
+            </p>
+        </div>
+    </div>
+</section>
+<section class=" py-2" >
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 style="mb-3;color:rgb(1, 89, 144);">Categories</h4>
+                <hr style="border-color: aliceblue;">
+            </div>
+            {% for item in category %}
+            <div class="card mx-3 my-3" style="width: 18rem;">
+                <img src="{{item.image.url}}" class="card-img-top" style="height: 13rem;left: 0ch;" alt="Categories">
+                <a href="{% url 'collections' item.name %}" style="text-decoration: none;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.name}}</h5>
+                        <p class="card-text">{{item.description}}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
