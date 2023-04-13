@@ -1,0 +1,36 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Login | Amazon
+{% endblock title %}
+{% block content %}
+<div class="container" style="min-height: 639px;">
+    <div class="row">
+        <div class="col-12 my-4">
+            <h3 class="mb-3">User Login</h3>
+            <hr style="border-color: white;">
+            {% include 'extends/msg.html' %}
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                  <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="" class="form-label">User Username</label>
+                        <input type="text" name="username" id="username" class="form-control" placeholder="Enter Username">
+                    </div>
+                    <div class="mb-4">
+                        <label for="" class="form-label">User Password</label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock content %}

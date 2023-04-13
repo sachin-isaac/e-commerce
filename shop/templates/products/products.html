@@ -1,0 +1,38 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Amazon
+{% endblock title %}
+{% block content %}
+<section style="min-height: 639px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-4">
+                <h4 class="mb-3">{{category_name}} Products</h4>
+                <hr style="border-color: white;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a style="text-decoration: none;color:var(--head);" href="{% url 'home' %}">Home</a></li>
+                      <li class="breadcrumb-item"><a style="text-decoration: none;color:var(--head);" href="{% url 'collections' %}">Category</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">{{category_name}} Collections</li>
+                    </ol>
+                </nav>
+                {% include 'extends/msg.html' %}
+            </div>
+            {% for item in products %}
+            <div class="card" style="max-width: 18rem;margin: 1rem 1.3rem;">
+                <a href="{% url 'details' category_name item.name %}" style="text-decoration: none;">
+                <img src="{{item.product_image.url}}" style="height: 15rem;width: 16.5rem;object-fit: contain;" alt="Categories">
+                    <div class="card-body" style="bottom: 0px;">
+                        <h5 class="card-title" style="color: black;">{{item.name}}</h5>
+                        <p class="card-text">
+                            <span class="flex float-start" style="color: red;"><s>&#8377 {{ item.original_price | stringformat:'d' }}</s></span>
+                            <span class="flex float-end" style="color: green;">&#8377 {{ item.selling_price | stringformat:'d' }}</span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

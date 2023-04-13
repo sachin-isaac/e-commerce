@@ -1,0 +1,83 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Order View | Amazon
+{% endblock title %}
+{% block content %}
+<div class="container" style="min-height: 623px;">
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb my-3">
+                <li class="breadcrumb-item"><a style="text-decoration: none;color:var(--head);"
+                        href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a style="text-decoration: none;color:var(--head);"
+                        href="{% url 'my_orders' %}">My Orders</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Order View</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12" style="height: 340px;">
+                                        <h4 style="color:var(--head);">Shipping Details</h4>
+                                        <hr>
+                                        <b>
+                                        <p>{{order.fname}} {{order.lname}}</p>
+                                        <p>{{order.address}}</p>
+                                        <p>{{order.city}}</p>
+                                        <p>{{order.state}}</p>
+                                        <p>{{order.pincode}}</p>
+                                    </b>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <b>
+                                            <p>Payment Mode : {{order.payment_mode}}</p>
+                                            <p>Order Date &nbsp &nbsp &nbsp &nbsp: {{order.created_at.date}}</p>
+                                            <p>Order Status &nbsp &nbsp : {{order.status}}</p>
+                                            <p>Tracking No &nbsp &nbsp &nbsp: {{order.tracking_no}}</p>
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="height: 500px;">
+                            <div class="container">
+                            <h4 style="color:var(--head);">Order Summary</h4>
+                            <hr>
+                            <div style="max-height: 465px;overflow-y:auto;">
+                                <table class="table" style="text-align: center;">
+                                    <thead>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                        <th style="width: 70px;">Price</th>
+                                    </thead>
+                                    {% for item in orderitems %}
+                                    <tr>
+                                        <td>
+                                            <div class="my-2"><img src="{{item.product.product_image.url}}"
+                                                    style="height: 3.25rem;"></div>
+                                        </td>
+                                        <td>{{ item.product.name }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.price | stringformat:'d'}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                <h5>Grand Total : <span class="float-end">{{order.total_price | stringformat:'d'}}</span></h5>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}

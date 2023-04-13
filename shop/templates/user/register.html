@@ -1,0 +1,56 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Registration | Amazon
+{% endblock title %}
+{% block content %}
+<div class="container" style="min-height: 639px;">
+    <div class="row">
+        <div class="col-12 my-4">
+            <h3 class="mb-3">Register Page</h3>
+            <hr style="border-color: white;">
+            {% include 'extends/msg.html' %}
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="" class="form-label">User Username</label>
+                            {{form.username}}
+                            {% if form.errors.username %}
+                            <label class="text-danger">{{ form.errors.username }}</label>
+                            {% endif %}
+                        </div>
+                        <div class="mb-4">
+                            <label for="" class="form-label">User Email</label>
+                            {{form.email}}
+                            {% if form.errors.email %}
+                            <label class="text-danger">{{ form.errors.email }}</label>
+                            {% endif %}
+                        </div>
+                        <div class="mb-4">
+                            <label for="" class="form-label">User Password</label>
+                            {{form.password1}}
+                            {% if form.errors.password1 %}
+                            <label class="text-danger">{{ form.errors.password1 }}</label>
+                            {% endif %}
+                        </div>
+                        <div class="mb-4">
+                            <label for="" class="form-label">Confirm Password</label>
+                            {{form.password2}}
+                            {% if form.errors.password2 %}
+                            <label class="text-danger">{{ form.errors.password2 }}</label>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                    <p class="my-2">Already User ? <a href="{% url 'login' %}" style="text-decoration: none;">Login Now</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

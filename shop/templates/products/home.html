@@ -1,0 +1,38 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Amazon
+{% endblock title %}
+{% block content %}
+<div style="min-height: 700px;">
+{% if messages %}
+<div style="margin-bottom: -17px;">
+{% include 'extends/msg.html' %}
+</div>
+{% endif %}
+{% include 'extends/slider.html' %}
+<div class="container my-4">
+    <div class="row">
+        <div class="row">
+            <div class="col-12">
+                <h4 >Latest Offers</h4>
+                <hr >
+            </div>
+            {% for item in products %}
+            <div class="card mx-3 my-3" style="width: 18rem;">
+                <a href="{% url 'details' item.category.name item.name %}" style="text-decoration: none;">
+                <img src="{{item.product_image.url}}"  style="height: 15rem;width: 16.5rem;object-fit: contain;" alt="Categories">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color:var(--head)">{{item.name}}</h5>
+                        <p class="card-text ">
+                            <span class="flex float-start" style="color:var(--dan);"><s>&#8377 {{ item.original_price | stringformat:'d' }}</s></span>
+                            <span class="flex float-end" style="color:var(--suc);">&#8377 {{ item.selling_price | stringformat:'d' }}</span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}

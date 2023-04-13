@@ -1,0 +1,42 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Collections | Amazon
+{% endblock title %}
+{% block content %}
+<div style="min-height: 639px;">
+{% if user.is_authenticated %}
+{% else %}
+<div style="text-align: center;">
+    <h1 class="fw-light mt-3">Bestsellers</h1>
+    <p class="lead text-muted">Our most popular products based on sales. Updated hourly.</p>
+    <p>
+        <a href="{% url 'login' %}" class="btn btn-primary my-2">Already
+            User</a>
+        <a href="{% url 'register'}" class="btn btn-secondary my-2">Register</a>
+    </p>
+</div>
+{% endif %}
+<section>
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 my-4">
+                <h4 style="color:var(--head)">Categories</h4>
+                <hr>
+                {% include 'extends/msg.html' %}
+            </div>
+            {% for item in category %}
+            <div class="card" style="width: 18rem;padding-top: 0.5rem;margin: 0rem 1.3rem 2rem;">
+                <a href="{% url 'collections' item.name %}" style="text-decoration: none;color:var(--head);">
+                <img src="{{item.image.url}}" style="height: 13rem;width: 16.5rem;object-fit:cover;"  alt="Categories">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.name}}</h5>
+                        <p class="card-text">{{item.description}}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+</div>
+{% endblock content %}

@@ -1,0 +1,161 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Checkout | Amazon
+{% endblock title %}
+{% block content %}
+<div class="container" style="min-height: 639px;">
+    <form action="{% url 'placeorder' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card-body" style="margin-top: 12px;">
+                    <h4 style="color:var(--pri);">Shipping Address</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6 my-3">
+                            <label for="">First Name</label>
+                            <input type="text" value="{{ pf.fname }}" name="fname"  required class="form-control" placeholder="Enter First Name" required>
+                        </div>
+                        <div class="col-md-6 my-3">
+                            <label for="">Last Name</label>
+                            <input type="text" value="{{ pf.lname }}" name="lname" required class="form-control" placeholder="Enter Last Name" required>
+                        </div>
+                        <div class="col-md-6 mt-2 my-3">
+                            <label for="">Email</label>
+                            <input type="email" value="{{ pf.email }}" name="email" required class="form-control" placeholder="Enter Email address" required>
+                        </div>
+                        <div class="col-md-6 mt-2 my-3">
+                            <label for="">Phone</label>
+                            <input type="tel" value="{{ pf.phone }}" name="phone" required class="form-control" placeholder="Enter Phone Number" required>
+                        </div>
+                        <div class="col-md-12 mt-2 my-3">
+                            <label for="">Address</label>
+                            <textarea rows="3" name="address" required class="form-control" placeholder="Enter Your Address here"
+                                required>{{ pf.address }}</textarea>
+                        </div>
+                        <div class="col-md-6 mt-2 my-3">
+                            <label for="">Country</label>
+                            <select id="country" value="{{ pf.country }}" name="country" class="form-select" required>
+                                <option value="" selected>Select Country</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mt-2 my-3">
+                            <label for="">State</label>
+                            <select id="state" value="{{ pf.state }}" name="state" class="form-select" required>
+                                <option value="" selected>Select State</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mt-2 my-3">
+                            <label for="">City</label>
+                            <select id="city" value="{{ pf.city }}" name="city" class="form-select" required>
+                                <option value="" selected>Select City</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mt-2 my-3">
+                            <label for="">Pin Code</label>
+                            <input type="tel" value="{{ pf.pincode }}" name="pincode" required class="form-control" placeholder="Enter Pin Code" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 mb-3">
+                <div class="card shadow" style="margin-top: 12px;">
+                    <div class="card-body">
+                        <h4 style="color:var(--pri);">Order Summary</h4>
+                        <hr>
+                        <div style="max-height: 465px;overflow-y:auto;">
+                            <table class="table table-striped" style="text-align: center;">
+                                <thead>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th style="width: 70px;">Price</th>
+                                    <th>Remove</th>
+                                </thead>
+                                {% for item in cartitems %}
+                                <tr>
+                                    <td>
+                                        <div class="my-2"><img src="{{item.product.product_image.url}}"
+                                                style="height: 3.25rem;"></div>
+                                    </td>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.product_qty }}</td>
+                                    <td>{{ item.total_cost | stringformat:'d'}}</td>
+                                    <td><a href="{% url 'remove_checkout' item.id %}" onclick="return confirm('Are you sure to delete?')" style="color: rgb(224, 0, 0);"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                                <td></td>
+                                <td></td>
+                                <td><b>Total</b></td>
+                                <td style="width: 85px;"><b>&#8377 {{total_price | stringformat:'d'}}</b></td>
+                                <td></td>
+                            </table>
+                        </div>
+                        <input type="hidden" value="COD" name="payment_mode">
+                        <div style="position:relative;bottom: 0;text-align: center;">
+                            <button type="submit" class="btn btn-outline-success mt-3" style="text-align: center;">COD | PlaceOrder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>
+</div>
+
+<script>
+    const inform = {
+        India: {
+            Tamilnadu: ["Chennai", "Coimbatore", "Madurai", "Tuticorin", "Tirunelveli"],
+            Kerala: ["Thiruvananthapuram", "Malabar", "Thrissur", "Kollam", "Kottayum"],
+            Karnataka: ["Bangalore", "Belgaum", "Mysore", "Udupi", "Ballari"],
+        },
+        USA: {
+            California: ["Los Angels", "San Francisco", "San Diego", "San Jose"],
+            "New York": ["New York City", "Brookhaven", "Oyster Bay", "Hempstead Town"],
+            Texas: ["Houston", "San Antonio", "Dallas", "Austin", "Fort Worth"],
+        },
+        Brazil: {
+            Acre: ["Brasileia", "Bujari", "Senador Guiomard"],
+            Alagoas: ["Atalaia", "Pilar", "Arapiraca"],
+            Bahia: ["Salvador", "Porto Seguro", "Itabuna"],
+        },
+    };
+
+    window.onload = function () {
+        const countryslt = document.querySelector('#country'),
+            stateslt = document.querySelector('#state'),
+            cityslt = document.querySelector('#city');
+
+        stateslt.disabled = true;
+        cityslt.disabled = true;
+
+        for (let country in inform) {
+            countryslt.options[countryslt.options.length] = new Option(country);
+        }
+
+        countryslt.onchange = (e) => {
+            stateslt.disabled = false;
+
+            stateslt.length = 1;
+            cityslt.length = 1;
+
+            for (let state in inform[e.target.value]) {
+                stateslt.options[stateslt.options.length] = new Option(state);
+            }
+        };
+
+        stateslt.onchange = (e) => {
+            cityslt.disabled = false;
+
+            cityslt.length = 1;
+
+            let citys = inform[countryslt.value][e.target.value];
+            //console.log(citys);
+
+            for (let i = 0; i < citys.length; i++) {
+                cityslt.options[cityslt.options.length] = new Option(citys[i]);
+            }
+        };
+    };
+</script>
+{% endblock content %}

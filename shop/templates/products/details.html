@@ -1,0 +1,57 @@
+{% extends "extends/base.html" %}
+{% block title %}
+Amazon
+{% endblock title %}
+{% block content %}
+<section style="min-height: 639px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 my-4">
+                <h4 class="mb-3">{{products}} Details</h4>
+                <hr style="border-color: white;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" ><a style="text-decoration: none;color:var(--head);" href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a style="text-decoration: none;color:var(--head);" href="{% url 'collections' %}">Category</a></li>
+                        <li class="breadcrumb-item"><a style="text-decoration: none;color:var(--head);"
+                                href="{% url 'collections' products.category.name %}">{{category_name}} Collections</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{products}}</li>
+                    </ol>
+                </nav>
+                {% include 'extends/msg.html' %}
+            </div>
+            <div class="col-4 my-3 ">
+                {% if products.trending %}
+                <div class="trending">Trending</div>
+                {% endif %}
+                <img src="{{products.product_image.url}}" class="card-img-top" style="max-height: 22rem;object-fit: contain;"alt="products">
+            </div>
+            <div class="col-8 my-3">
+                <h5 style="color:var(--head);">{{products | upper}}</h5>
+                <P>{{products.vender}}</P>
+                <p>{{products.description}}</p>
+                <h6 class="my-2">Current price : <s>&#8377 {{products.original_price | stringformat:'d'}}</s></h6>
+                <h5 class="my-2">Offer Price :&#8377 {{products.selling_price | stringformat:'d'}}</h5>
+                <div class="my-3">
+                    {% if products.quantity > 0 %}
+                    <input type="hidden" value="{{products.id}}" id="pid">
+                    <div class="input-group" style="width:9.5rem;">
+                        <button class="input-group-text bg-success text-light" onclick="decrement()"><i
+                                class="fa fa-minus"></i></button>
+                        <input type="text" name="qty" id="qty" value="1" min="1"
+                            class="form-control text-center">
+                        <button class="input-group-text bg-success text-light" onclick="increment()"><i
+                                class="fa fa-plus"></i></button>
+                    </div>
+                    <button class="btn btn-primary my-2" id="btncart" onclick="cart('{{csrf_token}}')"><i class="fa fa-cart"></i>Add to
+                        Cart</button>
+                    {% else %}
+                    <button class="btn btn-secondary"><i class="fa fa-cart"></i>Out of Stock</button>
+                    {% endif %}
+                    <button class="btn btn-danger" id="btnfav" onclick="fav('{{csrf_token}}')"><i class="fa fa-heart"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends "extends/base.html" %}
+{% include 'extends/navbar.html' %}
+{% block title %}
+Cart | Amazon
+{% endblock title %}
+{% block content %}
+<section style="min-height: 615px;" class="mb-4">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12 my-4">
+                <h4 style="color:var(--pri);" id="cart-item-head">Cart Items</h4>
+                <hr style="border-color: white;">
+            </div>
+            {% if cart %}
+            <table style="text-align: center;" >
+                <thead>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Unit</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </thead>
+                {% for item in cart %}
+                <tr>
+                    <td><div class="my-3"><img src="{{item.product.product_image.url}}" style="height: 6rem;" alt="{{item.product.name}}"></div></td>
+                    <td>{{item.product.name}}</td>
+                    <td>{{item.product.selling_price | stringformat:'d'}}</td>
+                    <td>{{item.product_qty}}</td>
+                    <td class="tcst">{{item.total_cost | stringformat:'d'}}</td>
+                    <td><a href="{% url 'remove_cart' item.id %}" onclick="return confirm('Are you sure to delete?')" class="btn btn-danger btn-sm">Remove</a></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2"><b>Total Amount</b></td>
+                    <td id="tamt">{{total_price | stringformat:'d'}}</td>
+                    <td><a href="{% url 'checkout' %}" class="btn btn-outline-success btn-sm">Proceed to Buy</a></td>
+                </tr> 
+            </table>
+            {% else %}
+            <div class="container" style="height: 26em;display: flex;align-items: center;justify-content: center">
+                <p style="opacity: 0.7;font-size: large;"><b>Your Cart is Empty...</b></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

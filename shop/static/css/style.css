@@ -1,0 +1,19 @@
+:root{
+    --pri:black; /*rgb(1, 89, 144)*/
+    --dan:rgb(220, 0, 0);
+    --suc:green;
+    --head:black;
+    --w:white;
+}
+
+.trending{
+    background-color:var(--dan);
+    color: var(--w);
+    width: 80px;
+    font-weight:bold;
+    display: inline;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+}
